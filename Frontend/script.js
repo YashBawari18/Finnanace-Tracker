@@ -1,99 +1,81 @@
-// Languages
-const LANGS = {
-    en: {
-      uploadTitle: "Expense Data Input",
-      uploadBank: "Upload Bank Statement (CSV)",
-      pasteSms: "Paste SMS/WhatsApp Transaction Text",
-      manualEntry: "Manual Expense Entry",
-      amount: "Amount",
-      description: "Description",
-      date: "Date",
-      add: "Add",
-      dashboard: "Insights Dashboard",
-      categorySplit: "Category Split",
-      smartAlerts: "Smart Alerts",
-      savings: "Savings Recommendations",
-      goalTracking: "Goal Tracking",
-      goalAmount: "Goal Amount",
-      goalName: "Goal Name",
-      targetDate: "Target Date",
-      setGoal: "Set Goal",
-      progress: "Progress"
+// Spending Pie Chart
+const spendingCtx = document.getElementById('spendingChart').getContext('2d');
+const spendingChart = new Chart(spendingCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Food', 'Travel', 'Bills', 'Shopping', 'Rent', 'Other'],
+        datasets: [{
+            data: [5000, 2000, 1500, 3000, 7000, 1000],
+            backgroundColor: [
+                '#22c1c3', '#4e9af1', '#3a7bd5', '#6a11cb', '#ff6f61', '#f7b42c'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        animation: {
+            animateScale: true,
+            animateRotate: true,
+            duration: 1200,
+            easing: 'easeOutBounce'
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { font: { size: 14 } }
+            }
+        }
     }
-  };
-  
-  let currentLang = "en";
-  
-  // Populate language select
-  const langSelect = document.getElementById("languageSelect");
-  Object.keys(LANGS).forEach(code => {
-    const opt = document.createElement("option");
-    opt.value = code;
-    opt.textContent = code.toUpperCase();
-    langSelect.appendChild(opt);
-  });
-  langSelect.addEventListener("change", e => {
-    currentLang = e.target.value;
-    setTexts();
-  });
-  
-  function setTexts() {
-    const t = LANGS[currentLang];
-    document.getElementById("uploadTitle").textContent = t.uploadTitle;
-    document.getElementById("pasteSmsLabel").textContent = t.pasteSms;
-    document.getElementById("manualEntryTitle").textContent = t.manualEntry;
-    document.getElementById("amountLabel").textContent = t.amount;
-    document.getElementById("descriptionLabel").textContent = t.description;
-    document.getElementById("dateLabel").textContent = t.date;
-    document.getElementById("addManualBtn").textContent = t.add;
-    document.getElementById("dashboardTitle").textContent = t.dashboard;
-    document.getElementById("categorySplitTitle").textContent = t.categorySplit;
-    document.getElementById("recommendationsTitle").textContent = t.savings;
-    document.getElementById("goalTrackingTitle").textContent = t.goalTracking;
-    document.getElementById("goalNameLabel").textContent = t.goalName;
-    document.getElementById("goalAmountLabel").textContent = t.goalAmount;
-    document.getElementById("goalDateLabel").textContent = t.targetDate;
-    document.getElementById("setGoalBtn").textContent = t.setGoal;
-    document.getElementById("progressLabel").textContent = t.progress;
-  }
-  setTexts();
-  
-  // Sample data
-  let transactions = [
-    { date: "2025-08-01", amount: 320, category: "Food" },
-    { date: "2025-08-02", amount: 1000, category: "Travel" }
-  ];
-  
-  // Charts
-  function updateCharts() {
-    const ctx1 = document.getElementById("monthlyChart").getContext("2d");
-    new Chart(ctx1, {
-      type: "bar",
-      data: {
-        labels: ["Aug 2025"],
-        datasets: [{ label: "Spend", data: [1320], backgroundColor: "#6ea8ff" }]
-      }
-    });
-  
-    const ctx2 = document.getElementById("categoryChart").getContext("2d");
-    new Chart(ctx2, {
-      type: "pie",
-      data: {
-        labels: ["Food", "Travel"],
-        datasets: [{ data: [320, 1000], backgroundColor: ["#6ea8ff", "#f59e0b"] }]
-      }
-    });
-  }
-  updateCharts();
-  
-  // Manual add
-  document.getElementById("addManualBtn").addEventListener("click", () => {
-    const amt = parseFloat(document.getElementById("manualAmount").value);
-    const desc = document.getElementById("manualDescription").value;
-    const date = document.getElementById("manualDate").value;
-    if (amt && desc && date) {
-      transactions.push({ amount: amt, category: "Other", date });
-      updateCharts();
+});
+
+// Trend Bar Chart
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+const trendChart = new Chart(trendCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Food',
+            data: [4000, 4200, 3800, 5000, 5200, 4800],
+            backgroundColor: '#22c1c3',
+            borderRadius: 8
+        },
+        {
+            label: 'Travel',
+            data: [1800, 2200, 2000, 2500, 2300, 2100],
+            backgroundColor: '#3a7bd5',
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        animation: {
+            duration: 1200,
+            easing: 'easeInOutQuart'
+        },
+        plugins: {
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
     }
-  });
-  
+});
+
+// Alerts
+function processData() {
+    document.getElementById('alertMessage').innerText =
+        "⚠ You are overspending on Food this month by 18% compared to last month.";
+}
+
+// Goals
+function setGoal() {
+    const goal = document.getElementById('goalAmount').value;
+    if (goal) {
+        document.getElementById('goalStatus').innerText = `🎯 Goal set: ₹${goal}. We'll track your progress!`;
+    } else {
+        document.getElementById('goalStatus').innerText = "⚠ Please enter a valid goal amount.";
+    }
+}
