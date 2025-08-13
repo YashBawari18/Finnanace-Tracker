@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Personal Finance Advisor</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="title">AI Personal Finance Advisor</div>
+            <select id="languageSelect"></select>
+        </header>
+
+        <div class="row">
+            <!-- Left Side: Inputs -->
+            <div class="stack">
+                <div class="card">
+                    <h3 id="uploadTitle"></h3>
+                    <label id="uploadBankLabel"></label>
+                    <input type="file" id="csvUpload" accept=".csv" />
+                    <br><br>
+                    <label>Upload Bank Statement (PDF)</label>
+                    <input type="file" id="pdfUpload" accept=".pdf" />
+                </div>
+
+                <div class="card">
+                    <label id="pasteSmsLabel"></label>
+                    <textarea id="smsText"></textarea>
+                    <button class="btn primary" id="parseSmsBtn"></button>
+                </div>
+
+                <div class="card">
+                    <h3 id="manualEntryTitle"></h3>
+                    <div class="grid-3">
+                        <div>
+                            <label id="amountLabel"></label>
+                            <input type="number" id="manualAmount" />
+                        </div>
+                        <div>
+                            <label id="descriptionLabel"></label>
+                            <input type="text" id="manualDescription" />
+                        </div>
+                        <div>
+                            <label id="dateLabel"></label>
+                            <input type="date" id="manualDate" />
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn primary" id="addManualBtn"></button>
+                </div>
+            </div>
+
+            <!-- Right Side: Dashboard -->
+            <div class="stack">
+                <div class="card">
+                    <h3 id="dashboardTitle"></h3>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                <div class="card">
+                    <h3 id="categorySplitTitle"></h3>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <!-- Alerts -->
+        <div class="cards" id="alertsContainer"></div>
+
+        <!-- Recommendations -->
+        <div class="card">
+            <h3 id="recommendationsTitle"></h3>
+            <ul id="recommendationsList"></ul>
+        </div>
+
+        <!-- Goal Tracking -->
+        <div class="card">
+            <h3 id="goalTrackingTitle"></h3>
+            <label id="goalNameLabel"></label>
+            <input type="text" id="goalName" />
+            <label id="goalAmountLabel"></label>
+            <input type="number" id="goalAmount" />
+            <label id="goalDateLabel"></label>
+            <input type="date" id="goalDate" />
+            <button class="btn primary" id="setGoalBtn"></button>
+            <br><br>
+            <label id="progressLabel"></label>
+            <progress id="goalProgress" max="100" value="0"></progress>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
